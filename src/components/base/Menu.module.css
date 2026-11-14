@@ -15,6 +15,24 @@
   }
 }
 
+@keyframes menuExit {
+  from {
+    opacity: 1;
+    transform: scale(1);
+  }
+
+  to {
+    opacity: 0;
+    transform: scale(0.96);
+  }
+}
+
+/* 提高特异性：要压过 .menu 上的入场动画 */
+.menu.menuExit {
+  animation: menuExit var(--ds-transition-duration-fast) var(--ds-ease-out) both;
+  pointer-events: none;
+}
+
 .menu {
   position: fixed;
   z-index: 900;
