@@ -1,6 +1,6 @@
 import { useTranslate } from '../../i18n/index.js'
 import clsx from 'clsx'
-import { memo, useEffect, useState, type ReactNode } from 'react'
+import { memo, useEffect, useRef, useState, type ReactNode } from 'react'
 import {
   IconBrowseOutline16,
   IconBrowseWarningOutline16,
@@ -68,6 +68,25 @@ export const ReplyArea = memo(function ReplyArea({
   const [open, setOpen] = useState(true)
   const titleActive = streaming && !hasResponse
   useTicker(titleActive, 1000)
+  const stepsRef = useRef<HTMLDivElement>(null)
+
+  /**
+   * 折叠区高度不定，CSS 无法直接过渡 height: auto，
+   * 所以点击时用 WAAPI 从实测高度动画到 0（或反向）。
+   */
+  const toggleOpen = () => {
+    const element = stepsRef.current
+    const next = !open
+    if (element) {
+      const height = element.scrollHeight
+      element.animate(
+        [{ height: next ? '0px' : `${height}px` }, { height: next ? `${height}px` : '0px' }],
+        { duration: 220, easing: 'cubic-bezier(0.4, 0, 0.2, 1)' }
+      )
+    }
+    setOpen(next)
+  }
+
   if (view.steps.length === 0 && !(message.thinking && streaming)) {
     return null
   }
@@ -78,7 +97,7 @@ export const ReplyArea = memo(function ReplyArea({
   return (
     <div className={styles.area}>
       {title ? (
-        <div className={styles.title} onClick={() => setOpen((value) => !value)}>
+        <div className={styles.title} onClick={toggleOpen}>
           <span className={clsx(styles.titleIcon, stopped && styles.stoppedIcon)}>
             <IconThinkOutline16 />
           </span>
@@ -86,20 +105,21 @@ export const ReplyArea = memo(function ReplyArea({
           {open ? <IconChevronDownOutline14 /> : <IconChevronRightOutline14 />}
         </div>
       ) : null}
-      {open || !title ? (
-        <div className={styles.steps}>
-          {view.steps.map((step, index) => (
-            <StepItem
-              key={stepKey(step, index)}
-              step={step}
-              message={message}
-              sources={view.sources}
-              streaming={streaming}
-              isLast={index === view.steps.length - 1}
-            />
-          ))}
-        </div>
-      ) : null}
+      <div
+        ref={stepsRef}
+        className={clsx(styles.steps, !(open || !title) && styles.stepsCollapsed)}
+      >
+        {view.steps.map((step, index) => (
+          <StepItem
+            key={stepKey(step, index)}
+            step={step}
+            message={message}
+            sources={view.sources}
+            streaming={streaming}
+            isLast={index === view.steps.length - 1}
+          />
+        ))}
+      </div>
     </div>
   )
 })

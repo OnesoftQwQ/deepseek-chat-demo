@@ -22,6 +22,15 @@
   }
 }
 
+/* 折叠区：高度由 JS 测量后用 WAAPI 过渡，收起时高度归零 */
+.steps {
+  overflow: hidden;
+}
+
+.stepsCollapsed {
+  height: 0;
+}
+
 .titleIcon {
   display: flex;
   margin-right: 6px;
