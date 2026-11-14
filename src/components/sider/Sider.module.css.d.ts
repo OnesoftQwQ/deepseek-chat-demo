@@ -1,4 +1,6 @@
 declare const styles: {
+  readonly "siderWrap": string;
+  readonly "siderWrapCollapsed": string;
   readonly "sider": string;
   readonly "top": string;
   readonly "appName": string;
