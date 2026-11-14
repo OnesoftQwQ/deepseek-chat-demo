@@ -23,15 +23,12 @@
   padding: 6px 12px 0;
   border-right: 1px solid var(--dsw-alias-border-l1);
   background-color: var(--dsw-specific-sidebar-fill);
-  transition:
-    opacity var(--ds-transition-duration-slow) var(--ds-ease-in-out),
-    transform var(--ds-transition-duration-slow) var(--ds-ease-in-out);
+  transition: transform var(--ds-transition-duration-slow) var(--ds-ease-in-out);
 }
 
-/* 收起时内容淡出并向左滑出，与宽度收缩同步 */
+/* 收起时整栏向左滑出（与宽度收缩同一条曲线），像官网那样保持不透明 */
 .siderWrapCollapsed .sider {
-  opacity: 0;
-  transform: translateX(-24px);
+  transform: translateX(-100%);
 }
 
 .top {
