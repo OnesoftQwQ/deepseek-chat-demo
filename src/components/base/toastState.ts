@@ -10,7 +10,7 @@ const DURATION = 3000
 /** 带链接时多留一些时间，方便点击 */
 const LINK_DURATION = 5000
 /** 与退出动画时长一致，播完再清空 */
-const EXIT_DURATION = 150
+const EXIT_DURATION = 220
 let timer = 0
 
 /** 先切到淡出状态，动画结束后再清空文案 */

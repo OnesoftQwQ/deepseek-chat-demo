@@ -19,9 +19,9 @@
   }
 }
 
-/* 提高特异性：要压过 .panel 上的入场动画 */
+/* 出场与入场同一时长和缓动，收放看起来对称 */
 .panel.panelExit {
-  animation: searchPanelShrink var(--ds-transition-duration-fast) var(--ds-ease-in) both;
+  animation: searchPanelShrink var(--ds-transition-duration-slow) var(--ds-ease-in-out) both;
   pointer-events: none;
 }
 

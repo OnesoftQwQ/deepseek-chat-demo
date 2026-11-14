@@ -14,7 +14,7 @@ export const SearchPanel = () => {
   const entry = useSearchPanel((state) => state.entry)
   const sources = useSearchPanel((state) => state.sources)
   // 关闭时 sources 会被清空，退出动画期间沿用上一次的内容，避免面板先变空再滑出
-  const { mounted, exiting } = usePresence(Boolean(entry), 160)
+  const { mounted, exiting } = usePresence(Boolean(entry), 320)
   const lastSources = useRef(sources)
   if (sources.length > 0) {
     lastSources.current = sources

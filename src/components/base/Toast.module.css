@@ -73,5 +73,5 @@
 }
 
 .leaving {
-  animation: leave 0.15s var(--ds-ease-out) both;
+  animation: leave 0.2s var(--ds-ease-in-out) both;
 }
