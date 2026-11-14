@@ -46,7 +46,6 @@
   align-items: center;
   flex-shrink: 0;
   box-sizing: border-box;
-  min-width: var(--panel-width);
   height: 60px;
   padding: 0 14px 0 20px;
   border-bottom: 1px solid var(--dsw-alias-border-l2);
@@ -63,7 +62,6 @@
 }
 
 .content {
-  min-width: var(--panel-width);
   --search-view-card-meta-font: var(--dsw-font-xs-13);
   --search-view-card-meta-padding-top: 2px;
   --search-view-card-secondary-color: var(--dsw-alias-label-tertiary);
