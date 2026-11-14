@@ -29,10 +29,15 @@
   pointer-events: none;
 }
 
+/* 与官网一致：面板浮在右侧空白处，不参与布局，所以对话区不会被挤压 */
 .panel {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 20;
   display: flex;
   flex-direction: column;
-  flex-shrink: 0;
   animation: searchPanelIn var(--ds-transition-duration-fast) var(--ds-ease-out) both;
   box-sizing: border-box;
   width: calc(50vw - 4rem);
