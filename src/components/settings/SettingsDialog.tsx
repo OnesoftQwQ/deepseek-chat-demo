@@ -30,6 +30,7 @@ import {
 import { useTranslate, type TranslationKey, type TranslationMessage } from '../../i18n/index.js'
 import { Button } from '../base/Button.js'
 import { Modal } from '../base/Modal.js'
+import { usePresence } from '../base/usePresence.js'
 import { Select } from '../base/Select.js'
 import { showToast } from '../base/toastState.js'
 import { ApiKeyConfirm, ApiKeyField, useApiKeyEditor } from './ApiKeyField.js'
@@ -42,7 +43,9 @@ import styles from './Settings.module.css'
  */
 export const SettingsDialog = () => {
   const open = useSettingsDialog((state) => state.open)
-  return open ? <SettingsContent /> : null
+  // 关闭后多留 120ms，让遮罩淡出播完再卸载
+  const { mounted, exiting } = usePresence(open, 120)
+  return mounted ? <SettingsContent closing={exiting} /> : null
 }
 
 const sections: { value: SettingsSection; label: TranslationKey; icon: ReactNode }[] = [
@@ -54,7 +57,7 @@ const sections: { value: SettingsSection; label: TranslationKey; icon: ReactNode
   { value: 'data', label: 'settingDialogAsideDataOptionLabel', icon: <IconDataOutline16 /> },
 ]
 
-const SettingsContent = () => {
+const SettingsContent = ({ closing }: { closing: boolean }) => {
   const t = useTranslate()
   const isMobile = useIsMobile()
   // 打开时按调用方指定的分组选中，之后在弹窗内切换
@@ -70,6 +73,7 @@ const SettingsContent = () => {
       <Modal
         title={t('settings')}
         closable
+        closing={closing}
         className={styles.dialog}
         mainClassName={styles.dialogMain}
         onClose={() => {

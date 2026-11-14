@@ -12,6 +12,8 @@
   border: 1px solid var(--dsw-alias-border-l2-darkmode-thin);
   background: var(--dsw-specific-input-major);
   overflow: hidden;
+  /* 会话页与首页切换阴影时平滑过渡（官网同款 box-shadow 过渡） */
+  transition: box-shadow var(--ds-transition-duration) var(--ds-ease-in-out);
 }
 
 .session {

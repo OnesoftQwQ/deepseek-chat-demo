@@ -9,6 +9,16 @@
   }
 }
 
+@keyframes modalOverlayExit {
+  from {
+    opacity: 1;
+  }
+
+  to {
+    opacity: 0;
+  }
+}
+
 @keyframes modalContentEnter {
   from {
     opacity: 0;
@@ -36,6 +46,12 @@
   [data-ds-dark-theme] & {
     --overlay-opacity: 0.6;
   }
+}
+
+/* 官网关闭时只让遮罩淡出，卡片本身保持不动 */
+.overlay.overlayClosing {
+  animation: modalOverlayExit var(--ds-transition-duration-fast) var(--ds-ease-out) both;
+  pointer-events: none;
 }
 
 .content {

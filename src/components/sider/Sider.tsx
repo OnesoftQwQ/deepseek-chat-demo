@@ -9,6 +9,7 @@ import type { SessionSummary } from '../../services/chat/types.js'
 import { Button } from '../base/Button.js'
 import { IconButton } from '../base/IconButton.js'
 import { Modal } from '../base/Modal.js'
+import { usePresence } from '../base/usePresence.js'
 import { showToast } from '../base/toastState.js'
 import { openSettings } from '../settings/settingsDialogState.js'
 import { closeMobileSider, useMobileSider } from './mobileSiderState.js'
@@ -32,6 +33,8 @@ export const Sider = ({
   const [deleting, setDeleting] = useState<SessionSummary | null>(null)
   const [deletePending, setDeletePending] = useState(false)
   const wrapRef = useRef<HTMLDivElement>(null)
+  // 删除确认弹窗关闭时保留一小段时间播遮罩淡出
+  const { mounted: confirmMounted, exiting: confirmExiting } = usePresence(deleting !== null, 120)
 
   // 收起后内容仍留在 DOM 里做过渡，用 inert 把它移出焦点顺序和点击命中
   useEffect(() => {
@@ -123,9 +126,10 @@ export const Sider = ({
             <span className={styles.settingsLabel}>{t('settings')}</span>
           </button>
         </div>
-        {deleting ? (
+        {confirmMounted ? (
           <Modal
             title={t('deleteSessionModalContentTitle')}
+            closing={confirmExiting}
             onClose={() => {
               if (!deletePending) {
                 setDeleting(null)
@@ -144,6 +148,9 @@ export const Sider = ({
                   variant="danger"
                   disabled={deletePending}
                   onClick={async () => {
+                    if (!deleting) {
+                      return
+                    }
                     setDeletePending(true)
                     try {
                       if (await removeSession(deleting.id)) {
