@@ -2,9 +2,23 @@
   display: inline-flex;
 }
 
+/* 与官网 ds-fade-in-zoom-in 一致：淡入同时从 96% 放大 */
+@keyframes menuEnter {
+  from {
+    opacity: 0;
+    transform: scale(0.96);
+  }
+
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
 .menu {
   position: fixed;
   z-index: 900;
+  animation: menuEnter var(--ds-transition-duration-fast) var(--ds-ease-in) both;
   box-sizing: border-box;
   min-width: 124px;
   padding: 4px;
@@ -27,6 +41,7 @@
   color: var(--dsw-alias-label-primary);
   cursor: pointer;
   user-select: none;
+  transition: background-color var(--ds-transition-duration) var(--ds-ease-in-out);
 
   &:hover {
     background-color: var(--dsw-alias-interactive-bg-hover);

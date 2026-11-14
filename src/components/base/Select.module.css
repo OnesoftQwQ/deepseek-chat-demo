@@ -1,3 +1,15 @@
+@keyframes selectMenuEnter {
+  from {
+    opacity: 0;
+    transform: scale(0.96);
+  }
+
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
 .trigger {
   position: relative;
   display: inline-flex;
@@ -62,6 +74,7 @@
 .menu {
   position: fixed;
   z-index: 1050;
+  animation: selectMenuEnter var(--ds-transition-duration-fast) var(--ds-ease-in) both;
   box-sizing: border-box;
   min-width: 124px;
   max-width: 280px;

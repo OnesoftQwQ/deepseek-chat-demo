@@ -159,6 +159,7 @@
   cursor: pointer;
   user-select: none;
   outline: none;
+  transition: background-color var(--ds-transition-duration) var(--ds-ease-in-out);
 
   &:hover {
     background-color: var(--dsw-specific-sidebar-nav-item-hover);

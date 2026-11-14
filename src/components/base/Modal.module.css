@@ -1,5 +1,29 @@
+/* 与官网一致：遮罩只淡入，卡片淡入并从 96% 放大 */
+@keyframes modalOverlayEnter {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes modalContentEnter {
+  from {
+    opacity: 0;
+    transform: scale(0.96);
+  }
+
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
 .overlay {
   --overlay-opacity: 0.36;
+  animation: modalOverlayEnter var(--ds-transition-duration-fast) var(--ds-ease-in) both;
   position: fixed;
   inset: 0;
   z-index: 1000;
@@ -15,6 +39,7 @@
 }
 
 .content {
+  animation: modalContentEnter var(--ds-transition-duration-fast) var(--ds-ease-in) both;
   display: flex;
   flex-direction: column;
   box-sizing: border-box;

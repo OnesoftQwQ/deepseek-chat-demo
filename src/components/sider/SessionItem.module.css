@@ -10,6 +10,9 @@
   line-height: 22px;
   color: var(--dsw-alias-label-primary);
   cursor: pointer;
+  transition:
+    background-color 0.15s var(--ds-ease-in-out),
+    color 0.15s var(--ds-ease-in-out);
 
   &.active {
     background-color: var(--dsw-specific-sidebar-nav-item-active-accent);
@@ -39,10 +42,22 @@
   line-height: 18px;
 }
 
+/* 悬停时操作按钮从 display: none 切出来，动画随之重新播放 */
+@keyframes actionIn {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
 .action {
   display: none;
   flex-shrink: 0;
   margin-left: 4px;
+  animation: actionIn var(--ds-transition-duration-fast) var(--ds-ease-out) both;
 }
 
 .renameInput {

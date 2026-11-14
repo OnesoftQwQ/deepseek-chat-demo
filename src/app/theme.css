@@ -15,6 +15,9 @@ body {
   --ds-font-size-m: 14px;
 
   --ds-ease-in-out: cubic-bezier(0.4, 0, 0.2, 1);
+  /* 与 chat.deepseek.com 一致：浮层入场用 ease-in，出场用 ease-out */
+  --ds-ease-in: cubic-bezier(0.4, 0, 1, 1);
+  --ds-ease-out: cubic-bezier(0, 0, 0.2, 1);
 
   --ds-font-family-code:
     Menlo, Monaco, Consolas, 'Cascadia Mono', 'Ubuntu Mono', 'DejaVu Sans Mono', 'Liberation Mono',
@@ -23,6 +26,7 @@ body {
 
   --ds-transition-duration: 0.2s;
   --ds-transition-duration-slow: 0.3s;
+  --ds-transition-duration-fast: 0.1s;
 }
 
 body {

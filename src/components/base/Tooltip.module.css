@@ -2,9 +2,20 @@
   display: contents;
 }
 
+@keyframes tooltipEnter {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
 .tooltip {
   position: fixed;
   z-index: 2000;
+  animation: tooltipEnter var(--ds-transition-duration-fast) var(--ds-ease-in) both;
   box-sizing: border-box;
   max-width: calc(100vw - 28px);
   padding: 4px 8px;
