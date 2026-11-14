@@ -11,6 +11,11 @@
   cursor: pointer;
   user-select: none;
   transition: color 0.2s;
+  /* 与官网一致：长思考滚动时标题吸在消息区顶部 */
+  position: sticky;
+  top: 0;
+  z-index: 7;
+  background-color: var(--dsw-alias-bg-base);
 
   &:hover {
     color: var(--dsw-alias-label-primary);
