@@ -68,6 +68,9 @@ const SettingsContent = ({ closing }: { closing: boolean }) => {
   const historyDelete = useHistoryDelete()
   const replacingHistory = useChatStore((state) => state.importingHistory)
   const historyBusy = historyImport.busy || historyDelete.busy || replacingHistory
+  // 两个叠层确认框关闭时同样保留一帧播放遮罩淡出
+  const importConfirm = usePresence(Boolean(historyImport.file), 120)
+  const deleteConfirm = usePresence(historyDelete.opened, 120)
   return (
     <>
       <Modal
@@ -130,8 +133,12 @@ const SettingsContent = ({ closing }: { closing: boolean }) => {
           )}
         </div>
       </Modal>
-      {historyImport.file ? <ImportConfirm historyImport={historyImport} /> : null}
-      {historyDelete.opened ? <DeleteAllConfirm historyDelete={historyDelete} /> : null}
+      {importConfirm.mounted ? (
+        <ImportConfirm historyImport={historyImport} closing={importConfirm.exiting} />
+      ) : null}
+      {deleteConfirm.mounted ? (
+        <DeleteAllConfirm historyDelete={historyDelete} closing={deleteConfirm.exiting} />
+      ) : null}
     </>
   )
 }
@@ -139,13 +146,16 @@ const SettingsContent = ({ closing }: { closing: boolean }) => {
 /** 删除确认保留在设置之上；失败可重试，成功只关闭确认弹窗。 */
 const DeleteAllConfirm = ({
   historyDelete,
+  closing,
 }: {
   historyDelete: ReturnType<typeof useHistoryDelete>
+  closing: boolean
 }) => {
   const t = useTranslate()
   return (
     <Modal
       title={t('deleteAllSessionsModalTitle')}
+      closing={closing}
       className={styles.deleteConfirm}
       onClose={historyDelete.cancel}
       footer={
@@ -321,13 +331,16 @@ const TtsVoiceSetting = () => {
 /** 覆盖导入的二次确认，叠在设置弹窗上 */
 const ImportConfirm = ({
   historyImport,
+  closing,
 }: {
   historyImport: ReturnType<typeof useHistoryImport>
+  closing: boolean
 }) => {
   const t = useTranslate()
   return (
     <Modal
       title={t('historyImportConfirmTitle')}
+      closing={closing}
       className={styles.importConfirm}
       onClose={historyImport.cancel}
       footer={
