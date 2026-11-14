@@ -1,48 +1,41 @@
-/* 与官网一致：面板整体从右侧滑入，时长和缓动取 fast/ease-out */
-@keyframes searchPanelIn {
+/* 面板占布局：宽度从 0 涨开，对话区跟着同步收窄 */
+@keyframes searchPanelGrow {
   from {
-    opacity: 0;
-    transform: translateX(100%);
+    width: 0;
   }
 
   to {
-    opacity: 1;
-    transform: none;
+    width: var(--panel-width);
   }
 }
 
-@keyframes searchPanelOut {
+@keyframes searchPanelShrink {
   from {
-    opacity: 1;
-    transform: none;
+    width: var(--panel-width);
   }
 
   to {
-    opacity: 0;
-    transform: translateX(100%);
+    width: 0;
   }
 }
 
-/* 收起时向右滑出，时长与入场一致；提高特异性以压过 .panel 的入场动画 */
+/* 提高特异性：要压过 .panel 上的入场动画 */
 .panel.panelExit {
-  animation: searchPanelOut var(--ds-transition-duration-fast) var(--ds-ease-in) both;
+  animation: searchPanelShrink var(--ds-transition-duration-fast) var(--ds-ease-in) both;
   pointer-events: none;
 }
 
-/* 与官网一致：面板浮在右侧空白处，不参与布局，所以对话区不会被挤压 */
 .panel {
-  position: absolute;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  z-index: 20;
+  --panel-width: min(390px, calc(50vw - 4rem));
   display: flex;
   flex-direction: column;
-  animation: searchPanelIn var(--ds-transition-duration-fast) var(--ds-ease-out) both;
+  flex-shrink: 0;
   box-sizing: border-box;
-  width: calc(50vw - 4rem);
-  max-width: 390px;
+  width: var(--panel-width);
   height: 100%;
+  /* 宽度动画期间裁切内容，内容自身按固定宽度绘制，避免文字被挤扁 */
+  overflow: hidden;
+  animation: searchPanelGrow var(--ds-transition-duration-slow) var(--ds-ease-in-out) both;
   border-left: 1px solid var(--dsw-alias-border-l2);
   color: var(--dsw-alias-label-primary);
   background: var(--dsw-alias-bg-base);
@@ -53,6 +46,7 @@
   align-items: center;
   flex-shrink: 0;
   box-sizing: border-box;
+  min-width: var(--panel-width);
   height: 60px;
   padding: 0 14px 0 20px;
   border-bottom: 1px solid var(--dsw-alias-border-l2);
@@ -69,6 +63,7 @@
 }
 
 .content {
+  min-width: var(--panel-width);
   --search-view-card-meta-font: var(--dsw-font-xs-13);
   --search-view-card-meta-padding-top: 2px;
   --search-view-card-secondary-color: var(--dsw-alias-label-tertiary);
